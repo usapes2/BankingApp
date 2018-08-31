@@ -28,6 +28,17 @@ class Customer {
 
 };
 
+string chopper(string& buffer) {
+
+		string::size_type L = buffer.length(); // This is the length of the line
+		if ( L!=string::npos) { 
+		string::size_type c1 = buffer.find(",");
+		string first = buffer.substr(0,c1); 
+		buffer = buffer.substr(c1+1,L-1); 
+
+	return first; }
+		else return buffer;
+}
 int main(){
 
 	string buffer;
@@ -35,44 +46,33 @@ int main(){
 	
 	vector<Customer> v;
 	
-	ifstream in("/mnt/c/Users/mladjo/Desktop/Projects/BankingApp/workingFiles/customers01.csv");
+	ifstream in("/mnt/c/Users/acagu/Desktop/Projects/BankingApp/workingFiles/customers01.csv");
 	while (getline(in,buffer,'\n')) 
 	{
-		string::size_type L = buffer.length(); // This is the length of the line
-		string::size_type c1 = buffer.find(",");
-		string first = buffer.substr(0,c1); 
-	//	cout << first << endl;
-		buffer = buffer.substr(c1+1,L-1);
-		L = buffer.length(); // This is the new lenght of the line
-		string::size_type c2 = buffer.find(",");
-		string second = buffer.substr(0,c2);
-	//	cout << second << endl;
-		string third = buffer.substr(c2+1,L-1);
-	//	cout << third << endl;
-	//	cout <<" ___________________________ "<< endl;
+		string first = chopper(buffer);	
+		string second = chopper(buffer);
+		string third = chopper(buffer);
+
 		
 		Customer cust(atoi(second.c_str()), atof(third.c_str()), first);
-//		int i = atoi(first.c_str());
 		v.push_back(cust);
 
 	//	cout << cust.get_id() << " " << cust.get_balance() << " " << cust.get_name() << endl;
 
 
-		
-		
-
-
-	}
-	for(int i=0; i<v.size(); i++){
-		cout << v[i].get_id() << " " << v[i].get_balance() << " " << v[i].get_name() << endl;
-}	
-
+	} 
 
 /* // Testing Customer Class
 	Customer c1(123,222, "mladjo");
 		
 	cout << c1.get_balance() << endl;
 	c1.set_balance(1000000);
-	cout << c1.get_balance(); */
+
+	*/
+	for(int i=0; i<v.size(); i++){
+		cout << v[i].get_id() << " " << v[i].get_balance() << " " << v[i].get_name() << endl;
+}	
+
+
 	return 0;
 }
