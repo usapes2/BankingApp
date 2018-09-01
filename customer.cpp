@@ -22,12 +22,27 @@ class Customer {
 		double get_balance() const {return balance;}
 		string get_name() const {return name;}
 		
-		void set_balance(int b) {
+		void set_balance(double b) {
 			balance = b;		
 		}
-
 };
+class Transaction{
+	
+	private:
+		int id;
+		double amount;
+	
+	public:
+/*		Transaction(int a, double b){
+			id = a;
+			amount = b;
+		}*/
 
+		Transaction(int a, double b):id(a),amount(b) {} // constructor proper definition
+		
+		int get_id() const {return id;}
+		double get_amount() {return amount;}
+};
 string chopper(string& buffer) {
 
 		string::size_type L = buffer.length(); // This is the length of the line
@@ -46,7 +61,8 @@ int main(){
 	
 	vector<Customer> v;
 	
-	ifstream in("/mnt/c/Users/acagu/Desktop/Projects/BankingApp/workingFiles/customers01.csv");
+	//ifstream in("/mnt/c/Users/acagu/Desktop/Projects/BankingApp/workingFiles/customers01.csv");
+	ifstream in("/mnt/c/Users/mladjo/Desktop/Projects/BankingApp/workingFiles/customers01.csv");
 	while (getline(in,buffer,'\n')) 
 	{
 		string first = chopper(buffer);	
@@ -62,6 +78,12 @@ int main(){
 
 	} 
 
+	Transaction trans(123, 34.43);
+	
+	cout << trans.get_amount() << endl;
+	
+
+
 /* // Testing Customer Class
 	Customer c1(123,222, "mladjo");
 		
@@ -69,9 +91,9 @@ int main(){
 	c1.set_balance(1000000);
 
 	*/
-	for(int i=0; i<v.size(); i++){
-		cout << v[i].get_id() << " " << v[i].get_balance() << " " << v[i].get_name() << endl;
-}	
+//	for(int i=0; i<v.size(); i++){
+//		cout << v[i].get_id() << " " << v[i].get_balance() << " " << v[i].get_name() << endl;
+//}	
 
 
 	return 0;
