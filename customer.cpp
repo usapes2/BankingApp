@@ -54,6 +54,13 @@ string chopper(string& buffer) {
 	return first; }
 		else return buffer;
 }
+
+void print_Rejected(Transaction t) {
+	cout << "Rejected Tx: "<< t.get_id() <<","<<t.get_amount()<<endl;
+}
+void print_Invalid(Transaction t) {
+	cout << "Invalid Tx: "<< t.get_id() <<","<<t.get_amount()<<endl;
+}
 int main(){
 
 	string buffer;
@@ -61,28 +68,61 @@ int main(){
 	
 	vector<Customer> v;
 	
-	//ifstream in("/mnt/c/Users/acagu/Desktop/Projects/BankingApp/workingFiles/customers01.csv");
-	ifstream in("/mnt/c/Users/mladjo/Desktop/Projects/BankingApp/workingFiles/customers01.csv");
+	ifstream in("/mnt/c/Users/acagu/Desktop/Projects/BankingApp/workingFiles/customers01.csv");
+//	ifstream in("/mnt/c/Users/mladjo/Desktop/Projects/BankingApp/workingFiles/customers01.csv");
 	while (getline(in,buffer,'\n')) 
 	{
 		string first = chopper(buffer);	
 		string second = chopper(buffer);
 		string third = chopper(buffer);
-
 		
 		Customer cust(atoi(second.c_str()), atof(third.c_str()), first);
 		v.push_back(cust);
 
-	//	cout << cust.get_id() << " " << cust.get_balance() << " " << cust.get_name() << endl;
-
-
 	} 
 
-	Transaction trans(123, 34.43);
-	
-	cout << trans.get_amount() << endl;
-	
 
+	for(int i=0; i<v.size(); i++){
+		cout << v[i].get_id() << " " << v[i].get_balance() << " " << v[i].get_name() << endl;
+}
+	ifstream intrans("/mnt/c/Users/acagu/Desktop/Projects/BankingApp/workingFiles/transactions01.csv");
+	//ifstream intrans("/mnt/c/Users/mladjo/Desktop/Projects/BankingApp/workingFiles/transactions01.csv");
+cout<<"Processing..."<<endl;
+	vector<Transaction> vtrans;
+	while (getline(intrans,buffer,'\n')) 
+	{
+		string first = chopper(buffer);	
+		string second = chopper(buffer);
+		
+		Transaction tr(atoi(first.c_str()),atof(second.c_str()));
+		vtrans.push_back(tr);
+	} 
+
+	for ( int i = 0 ; i < vtrans.size() ; i++ ) {
+		int id_temp = vtrans[i].get_id(); // temp ID 
+		bool trigger = false ;
+		for ( int j = 0 ; j < v.size() ; j++ ) {
+			if(id_temp == v[j].get_id() ) {
+				double balance = v[j].get_balance();
+				double amount = vtrans[i].get_amount();
+				if ( balance + amount >= 0 ) {
+					v[j].set_balance(amount+balance);
+					trigger = true;
+				} else {print_Rejected(vtrans[i]);
+					trigger = true; }
+			} 
+		}
+		if ( trigger == false ) print_Invalid(vtrans[i]);
+	      	
+
+
+	}	
+
+
+
+
+	/*for ( int i = 0 ; i < vtrans.size() ; i++ ) 
+		cout << vtrans[i].get_id() << " " << vtrans[i].get_amount() << endl; */
 
 /* // Testing Customer Class
 	Customer c1(123,222, "mladjo");
@@ -91,9 +131,14 @@ int main(){
 	c1.set_balance(1000000);
 
 	*/
-//	for(int i=0; i<v.size(); i++){
-//		cout << v[i].get_id() << " " << v[i].get_balance() << " " << v[i].get_name() << endl;
-//}	
+	for(int i=0; i<v.size(); i++){
+		cout << v[i].get_id() << " " << v[i].get_balance() << " " << v[i].get_name() << endl;
+}
+ /* Testing Transaction class
+ 	Transaction trans(123, 34.43);
+	
+	cout << trans.get_amount() << endl;
+*/	
 
 
 	return 0;
