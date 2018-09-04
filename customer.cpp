@@ -41,7 +41,7 @@ class Transaction{
 		Transaction(int a, double b):id(a),amount(b) {} // constructor proper definition
 		
 		int get_id() const {return id;}
-		double get_amount() {return amount;}
+		double get_amount() const {return amount;}
 };
 string chopper(string& buffer) {
 
@@ -55,12 +55,54 @@ string chopper(string& buffer) {
 		else return buffer;
 }
 
-void print_Rejected(Transaction t) {
+void const print_Rejected (Transaction t) {
 	cout << "Rejected Tx: "<< t.get_id() <<","<<t.get_amount()<<endl;
 }
-void print_Invalid(Transaction t) {
+void const print_Invalid (Transaction t) {
 	cout << "Invalid Tx: "<< t.get_id() <<","<<t.get_amount()<<endl;
 }
+void const print_cust(vector<Customer> v) {
+	for(int i=0; i<v.size(); i++)
+	cout << v[i].get_id() << " " << v[i].get_balance() << " " << v[i].get_name() << endl;
+}
+
+void print (vector<int> b) {
+
+	for ( int i = 0 ; i < b.size() ; i++ ){
+		cout << b[i] << endl;
+	}
+}
+
+vector<int> v ;
+v.push_back(1);
+v.push_back(5);
+v.push_back(3);
+v.push_back(4);
+
+print (v );
+
+ifstream& read_file(ifstream& in, vector<Customer>& v) {
+	if(in) {
+		// get rid of previous contents
+		v.clear();
+		// read line
+	string buffer;
+	while (getline(in,buffer,'\n')) 
+	{
+		string first = chopper(buffer);	
+		string second = chopper(buffer);
+		string third = chopper(buffer);
+		
+		Customer cust(atoi(second.c_str()), atof(third.c_str()), first);
+		v.push_back(cust);
+	} 
+
+//	in.clear();
+	}
+
+	return in;
+}
+
 int main(){
 
 	string buffer;
@@ -70,23 +112,13 @@ int main(){
 	
 	ifstream in("/mnt/c/Users/acagu/Desktop/Projects/BankingApp/workingFiles/customers01.csv");
 //	ifstream in("/mnt/c/Users/mladjo/Desktop/Projects/BankingApp/workingFiles/customers01.csv");
-	while (getline(in,buffer,'\n')) 
-	{
-		string first = chopper(buffer);	
-		string second = chopper(buffer);
-		string third = chopper(buffer);
-		
-		Customer cust(atoi(second.c_str()), atof(third.c_str()), first);
-		v.push_back(cust);
+	read_file(in,v);	
+	print_cust(v);
 
-	} 
-
-
-	for(int i=0; i<v.size(); i++){
-		cout << v[i].get_id() << " " << v[i].get_balance() << " " << v[i].get_name() << endl;
-}
 	ifstream intrans("/mnt/c/Users/acagu/Desktop/Projects/BankingApp/workingFiles/transactions01.csv");
+
 	//ifstream intrans("/mnt/c/Users/mladjo/Desktop/Projects/BankingApp/workingFiles/transactions01.csv");
+	
 cout<<"Processing..."<<endl;
 	vector<Transaction> vtrans;
 	while (getline(intrans,buffer,'\n')) 
@@ -113,9 +145,6 @@ cout<<"Processing..."<<endl;
 			} 
 		}
 		if ( trigger == false ) print_Invalid(vtrans[i]);
-	      	
-
-
 	}	
 
 
