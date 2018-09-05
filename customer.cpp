@@ -72,15 +72,6 @@ void print (vector<int> b) {
 		cout << b[i] << endl;
 	}
 }
-
-vector<int> v ;
-v.push_back(1);
-v.push_back(5);
-v.push_back(3);
-v.push_back(4);
-
-print (v );
-
 ifstream& read_file(ifstream& in, vector<Customer>& v) {
 	if(in) {
 		// get rid of previous contents
