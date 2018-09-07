@@ -58,7 +58,8 @@ bool compare_balance(Customer c1, Customer c2){
 string chopper(string& buffer) {
 
 		string::size_type L = buffer.length(); // This is the length of the line
-		if ( L!=string::npos) { 
+		string::size_type i = buffer.find(",");
+		if ( i!=string::npos) { 
 		string::size_type c1 = buffer.find(",");
 		string first = buffer.substr(0,c1); 
 		buffer = buffer.substr(c1+1,L-1); 
@@ -87,8 +88,8 @@ int main(){
 	
 	vector<Customer> v;
 	
-//	ifstream in("/mnt/c/Users/acagu/Desktop/Projects/BankingApp/workingFiles/customers01.csv");
-	ifstream in("/mnt/c/Users/mladjo/Desktop/Projects/BankingApp/workingFiles/customers01.csv");
+	ifstream in("/mnt/c/Users/acagu/Desktop/Projects/BankingApp/workingFiles/customers01.csv");
+	//ifstream in("/mnt/c/Users/mladjo/Desktop/Projects/BankingApp/workingFiles/customers01.csv");
 	while (getline(in,buffer,'\n')) 
 	{
 		string first = chopper(buffer);	
@@ -132,7 +133,7 @@ cout<<"Processing..."<<endl;
 		if ( trigger == false ) print_Invalid(vtrans[i]);
 	}	
 
-	sort(v.begin(), v.end(), compare_balance;
+	sort(v.begin(), v.end(), compare_balance);
 	print_customer(v);
 	
 	return 0;
